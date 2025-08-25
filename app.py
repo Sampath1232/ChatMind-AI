@@ -86,6 +86,23 @@ def handle_image_generation_request(user_message: str) -> str:
         logging.error(f"Error in image generation: {str(e)}")
         return "I encountered an error while processing your image generation request. Please try again."
 
+@app.route('/download/<path:filename>')
+def download_file(filename):
+    """Serve generated files for download"""
+    import os
+    from flask import send_from_directory
+    
+    try:
+        # Check if file exists in generated_content directory
+        file_path = os.path.join('generated_content', filename)
+        if os.path.exists(file_path):
+            return send_from_directory('generated_content', filename, as_attachment=True)
+        else:
+            return jsonify({'error': 'File not found'}), 404
+    except Exception as e:
+        logging.error(f"Error serving file {filename}: {str(e)}")
+        return jsonify({'error': 'Error downloading file'}), 500
+
 @app.route('/health')
 def health():
     """Health check endpoint"""

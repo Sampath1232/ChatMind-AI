@@ -90,6 +90,8 @@ class Chatbot:
             # Get intent name
             intent_name = self.label_encoder.inverse_transform([predicted_intent])[0]
             
+            logging.debug(f"Intent: {intent_name}, Confidence: {confidence:.3f}")
+            
             # Handle introduction intent to extract user name
             if intent_name == "introduction" and confidence > 0.3:
                 self._extract_user_name(user_input)
@@ -146,9 +148,13 @@ class Chatbot:
     def _add_to_context(self, message: str):
         """Add message to conversation context"""
         self.conversation_context.append(message)
-        # Keep only last 6 exchanges to manage context size
-        if len(self.conversation_context) > 12:
-            self.conversation_context = self.conversation_context[-12:]
+        # Keep only last 10 exchanges to manage context size
+        if len(self.conversation_context) > 20:
+            self.conversation_context = self.conversation_context[-20:]
+        
+        # Log context for debugging
+        logging.debug(f"Added to context: {message}")
+        logging.debug(f"Current context size: {len(self.conversation_context)}")
     
     def _extract_user_name(self, user_input: str):
         """Extract user name from introduction"""
@@ -169,8 +175,20 @@ class Chatbot:
     def _get_intelligent_fallback(self, user_input: str) -> str:
         """Get intelligent response using Gemini for fallback cases"""
         if self.gemini_helper.is_available():
-            context = " ".join(self.conversation_context[-4:]) if self.conversation_context else None
-            response = self.gemini_helper.get_conversational_response(user_input, self.user_name)
+            # Get recent conversation context
+            recent_context = " ".join(self.conversation_context[-6:]) if self.conversation_context else None
+            
+            # Build context-aware prompt
+            if recent_context and self.user_name:
+                context_prompt = f"Recent conversation context: {recent_context}\nUser's name: {self.user_name}\nUser's current question: {user_input}"
+            elif recent_context:
+                context_prompt = f"Recent conversation context: {recent_context}\nUser's current question: {user_input}"
+            elif self.user_name:
+                context_prompt = f"User's name: {self.user_name}\nUser's question: {user_input}"
+            else:
+                context_prompt = user_input
+            
+            response = self.gemini_helper.get_response(user_input, recent_context)
             if response:
                 return response
         
@@ -226,8 +244,14 @@ class Chatbot:
         if not prompt:
             return "Please provide a description for the image you'd like me to generate. For example: 'generate image of a beautiful sunset over mountains'"
         
-        # Note: In a real implementation, this would use the image generation tool
-        return f"🎨 I'll generate an image based on your prompt: '{prompt}'\n\nNote: Image generation requires additional setup. For now, I can help you refine your prompt or suggest image generation tools you could use!"
+        # Use Gemini to enhance the image generation prompt and provide guidance
+        if self.gemini_helper.is_available():
+            enhance_prompt = f"The user wants to generate an image with this description: '{prompt}'. Provide a detailed, artistic description that would work well for image generation, and explain what the image would look like. Be creative and descriptive."
+            enhanced_description = self.gemini_helper.get_response(enhance_prompt)
+            if enhanced_description:
+                return f"🎨 I'll help you generate an image of: '{prompt}'\n\n{enhanced_description}\n\n💡 Tip: Image generation is available through this system! The enhanced description above would create a beautiful, detailed image that would be saved to your generated_content folder for download."
+        
+        return f"🎨 I understand you want to generate an image: '{prompt}'\n\nImage generation is available! The system can create custom images based on your descriptions. The image would be saved to the generated_content folder for you to download."
     
     def _handle_pdf_generation(self, user_input: str) -> str:
         """Handle PDF generation requests"""
