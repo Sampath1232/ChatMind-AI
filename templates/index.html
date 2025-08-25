@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot - Intelligent Assistant</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container-fluid h-100">
+        <div class="row h-100">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar">
+                <div class="sidebar-header">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-robot me-2 text-primary fs-3"></i>
+                        <h4 class="mb-0">AI Chatbot</h4>
+                    </div>
+                </div>
+                
+                <div class="sidebar-content">
+                    <div class="feature-card">
+                        <i class="fas fa-brain text-primary"></i>
+                        <h6>Machine Learning</h6>
+                        <p>Powered by advanced NLP and intent classification</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <i class="fas fa-language text-success"></i>
+                        <h6>Natural Language</h6>
+                        <p>Understands context and responds naturally</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <i class="fas fa-bolt text-warning"></i>
+                        <h6>Real-time</h6>
+                        <p>Instant responses with high accuracy</p>
+                    </div>
+                </div>
+                
+                <div class="sidebar-footer">
+                    <button class="btn btn-outline-primary btn-sm w-100" onclick="clearChat()">
+                        <i class="fas fa-trash me-1"></i> Clear Chat
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Main Chat Area -->
+            <div class="col-md-9 col-lg-10 main-content">
+                <!-- Chat Header -->
+                <div class="chat-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <div class="status-indicator online me-2"></div>
+                            <h5 class="mb-0">AI Assistant</h5>
+                            <span class="text-muted ms-2">Online</span>
+                        </div>
+                        <div class="chat-actions">
+                            <button class="btn btn-outline-secondary btn-sm me-2" onclick="toggleTypingIndicator()" title="Toggle typing indicator">
+                                <i class="fas fa-keyboard"></i>
+                            </button>
+                            <button class="btn btn-outline-info btn-sm" onclick="showHelp()" title="Show help">
+                                <i class="fas fa-question-circle"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Chat Messages -->
+                <div class="chat-container">
+                    <div id="chat-messages" class="chat-messages">
+                        <!-- Welcome Message -->
+                        <div class="message bot-message">
+                            <div class="message-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="message-content">
+                                <div class="message-bubble">
+                                    <p>👋 Hello! I'm your AI assistant. I'm powered by machine learning and natural language processing.</p>
+                                    <p>You can ask me questions, get help, or just have a conversation. How can I assist you today?</p>
+                                </div>
+                                <div class="message-time">Just now</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Typing Indicator -->
+                    <div id="typing-indicator" class="typing-indicator" style="display: none;">
+                        <div class="message bot-message">
+                            <div class="message-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="message-content">
+                                <div class="typing-dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Chat Input -->
+                <div class="chat-input">
+                    <div class="input-group">
+                        <input type="text" id="message-input" class="form-control" 
+                               placeholder="Type your message here..." 
+                               autocomplete="off">
+                        <button class="btn btn-primary" id="send-button" onclick="sendMessage()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <div class="input-help">
+                        <small class="text-muted">
+                            <i class="fas fa-lightbulb me-1"></i>
+                            Try asking: "Hello", "What can you do?", "Help me", or "Tell me about yourself"
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Error Modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                        Connection Error
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="error-message">Unable to connect to the chatbot service. Please try again.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Help Modal -->
+    <div class="modal fade" id="helpModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-question-circle text-info me-2"></i>
+                        How to Use the Chatbot
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6><i class="fas fa-comments text-primary me-2"></i>Getting Started</h6>
+                    <ul>
+                        <li>Type your message in the input field at the bottom</li>
+                        <li>Press Enter or click the send button</li>
+                        <li>The AI will process your message and respond</li>
+                    </ul>
+                    
+                    <h6><i class="fas fa-brain text-success me-2"></i>What I Can Do</h6>
+                    <ul>
+                        <li>Answer general questions and provide information</li>
+                        <li>Help with various topics and explanations</li>
+                        <li>Have natural conversations</li>
+                        <li>Understand context and intent</li>
+                    </ul>
+                    
+                    <h6><i class="fas fa-lightbulb text-warning me-2"></i>Sample Questions</h6>
+                    <ul>
+                        <li>"Hello" or "Hi" - Greet the chatbot</li>
+                        <li>"What can you do?" - Learn about capabilities</li>
+                        <li>"Help me" - Get assistance</li>
+                        <li>"Tell me about yourself" - Learn about the AI</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Got it!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+</body>
+</html>

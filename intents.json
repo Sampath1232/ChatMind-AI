@@ -1,0 +1,231 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi",
+        "Hello",
+        "Hey",
+        "Good morning",
+        "Good afternoon",
+        "Good evening",
+        "What's up",
+        "Howdy",
+        "Greetings",
+        "Hi there",
+        "Hello there",
+        "Hey there",
+        "How are you",
+        "How's it going",
+        "Nice to meet you",
+        "Pleased to meet you"
+      ],
+      "responses": [
+        "Hello! How can I help you today?",
+        "Hi there! What can I do for you?",
+        "Hey! I'm here to assist you. What do you need?",
+        "Greetings! How may I be of service?",
+        "Hello! I'm ready to help. What would you like to know?",
+        "Hi! Welcome! How can I assist you today?",
+        "Hey there! What brings you here today?",
+        "Hello! It's great to meet you. How can I help?"
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "Bye",
+        "Goodbye",
+        "See you later",
+        "See you",
+        "Talk to you later",
+        "Catch you later",
+        "Until next time",
+        "Farewell",
+        "Take care",
+        "Have a good day",
+        "Have a nice day",
+        "Gotta go",
+        "I'm leaving",
+        "Time to go",
+        "I'll be back",
+        "Later"
+      ],
+      "responses": [
+        "Goodbye! Have a wonderful day!",
+        "See you later! Take care!",
+        "Bye! Feel free to come back anytime!",
+        "Farewell! It was great chatting with you!",
+        "Take care! Hope to see you again soon!",
+        "Goodbye! Have a fantastic day ahead!",
+        "See you! Don't hesitate to return if you need help!",
+        "Bye bye! Wishing you all the best!"
+      ]
+    },
+    {
+      "tag": "thanks",
+      "patterns": [
+        "Thanks",
+        "Thank you",
+        "Thank you so much",
+        "Thanks a lot",
+        "I appreciate it",
+        "Much appreciated",
+        "Thanks for your help",
+        "Thank you for helping me",
+        "That was helpful",
+        "You're awesome",
+        "Great job",
+        "Perfect",
+        "Excellent",
+        "Wonderful",
+        "Amazing",
+        "Fantastic"
+      ],
+      "responses": [
+        "You're very welcome! Happy to help!",
+        "My pleasure! Glad I could assist you!",
+        "You're welcome! Feel free to ask if you need anything else!",
+        "No problem at all! That's what I'm here for!",
+        "Happy to help! Is there anything else you'd like to know?",
+        "You're most welcome! Don't hesitate to ask more questions!",
+        "Glad I could be of assistance! Anything else I can help with?",
+        "It's my pleasure to help! Let me know if you need more support!"
+      ]
+    },
+    {
+      "tag": "help",
+      "patterns": [
+        "Help",
+        "I need help",
+        "Can you help me",
+        "Help me",
+        "I'm confused",
+        "I don't understand",
+        "What can you do",
+        "How do you work",
+        "What are your capabilities",
+        "What can I ask you",
+        "How can you assist me",
+        "What kind of help do you provide",
+        "Support",
+        "Assistance",
+        "Guide me",
+        "Show me how"
+      ],
+      "responses": [
+        "I'm here to help! You can ask me questions about various topics, and I'll do my best to assist you.",
+        "Of course! I can help with general questions, provide information, and have conversations. What would you like to know?",
+        "I'm happy to help! You can ask me about different topics, request information, or just chat. What do you need assistance with?",
+        "Absolutely! I'm designed to answer questions and provide helpful information. Feel free to ask me anything!",
+        "I'd be glad to help! I can answer questions, provide explanations, and assist with various topics. What's on your mind?",
+        "Sure thing! I'm here to provide information and assistance. You can ask me questions or request help with different topics.",
+        "I'm here for you! Whether you have questions, need information, or want to chat, I'm ready to help. What can I do for you?",
+        "Certainly! I can help answer questions, explain concepts, and provide information on various subjects. How can I assist you today?"
+      ]
+    },
+    {
+      "tag": "chatbot_info",
+      "patterns": [
+        "What are you",
+        "Who are you",
+        "Are you a bot",
+        "Are you human",
+        "What is your name",
+        "Tell me about yourself",
+        "What do you do",
+        "Are you a chatbot",
+        "Are you AI",
+        "Are you artificial intelligence",
+        "What's your purpose",
+        "Why were you created",
+        "How were you made",
+        "Who created you",
+        "What's your story",
+        "Introduce yourself"
+      ],
+      "responses": [
+        "I'm an AI chatbot created to help answer questions and provide assistance. I use machine learning to understand and respond to your messages!",
+        "Hello! I'm a chatbot powered by artificial intelligence. I'm here to help answer your questions and have conversations with you!",
+        "I'm an AI assistant designed to chat and help users like you. I use natural language processing to understand what you're saying and provide helpful responses!",
+        "I'm a friendly AI chatbot! I was created using machine learning and natural language processing to understand and respond to human conversations.",
+        "I'm an artificial intelligence chatbot. My purpose is to assist users by answering questions, providing information, and engaging in helpful conversations!",
+        "I'm an AI-powered chatbot built with Python and machine learning. I'm designed to understand your messages and provide relevant, helpful responses!",
+        "Hello! I'm a conversational AI assistant. I use advanced algorithms to process language and provide you with useful information and assistance!",
+        "I'm a smart chatbot created to help people like you! I can understand natural language and respond appropriately thanks to machine learning technology!"
+      ]
+    },
+    {
+      "tag": "weather",
+      "patterns": [
+        "What's the weather like",
+        "How's the weather",
+        "Weather forecast",
+        "Is it raining",
+        "Is it sunny",
+        "What's the temperature",
+        "Will it rain today",
+        "Weather update",
+        "Climate",
+        "Is it cold",
+        "Is it hot",
+        "Weather conditions",
+        "Should I bring an umbrella",
+        "What should I wear today"
+      ],
+      "responses": [
+        "I don't have access to real-time weather data, but I'd recommend checking a weather app or website for the most current conditions in your area!",
+        "I can't provide current weather information, but you can get accurate forecasts from weather services like Weather.com or your local weather app!",
+        "For up-to-date weather information, I suggest checking your preferred weather application or website. They'll have the most accurate local forecasts!",
+        "I don't have access to live weather data. For the most reliable weather information, please check a dedicated weather service or app!",
+        "While I can't give you current weather conditions, I recommend using a weather app or website for accurate, real-time information about your location!"
+      ]
+    },
+    {
+      "tag": "time",
+      "patterns": [
+        "What time is it",
+        "Current time",
+        "What's the time",
+        "Time",
+        "Clock",
+        "What time",
+        "Do you know the time",
+        "Can you tell me the time",
+        "What's the current time",
+        "Time please"
+      ],
+      "responses": [
+        "I don't have access to real-time clock information. Please check your device's clock or a time service for the current time!",
+        "I can't provide the current time, but you can easily check it on your computer, phone, or any clock nearby!",
+        "For the current time, I'd recommend checking your device's system clock or a reliable time service online!",
+        "I don't have access to live time data. Your device should display the current time, or you can search for 'current time' online!",
+        "I'm unable to tell you the exact time right now. Please check your local device time or use a time service for accurate information!"
+      ]
+    },
+    {
+      "tag": "fallback",
+      "patterns": [
+        "I don't understand",
+        "What?",
+        "Huh?",
+        "Come again?",
+        "I'm lost",
+        "That doesn't make sense",
+        "Can you repeat that",
+        "I'm not following",
+        "Confused"
+      ],
+      "responses": [
+        "I'm sorry, I didn't quite understand that. Could you please rephrase your question or ask something else?",
+        "I'm not sure what you mean. Could you try asking in a different way?",
+        "I don't understand that yet. Feel free to ask me something else or rephrase your question!",
+        "I'm having trouble understanding. Could you please be more specific or ask about something else?",
+        "That's not clear to me. Would you like to try asking something different or rephrase your question?",
+        "I'm not sure how to respond to that. Could you ask me something else or try wording it differently?",
+        "I don't quite get that. Feel free to ask me other questions or try explaining in a different way!",
+        "I'm not following. Could you please ask about something else or rephrase what you meant?"
+      ]
+    }
+  ]
+}
