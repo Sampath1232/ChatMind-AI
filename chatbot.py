@@ -1,9 +1,10 @@
 import json
 import os
 import logging
-from typing import Tuple, List
+from typing import Tuple, List, Optional
 import joblib
 from nlp_processor import NLPProcessor
+from gemini_helper import GeminiHelper
 
 class Chatbot:
     """
@@ -16,6 +17,9 @@ class Chatbot:
         self.model = None
         self.vectorizer = None
         self.label_encoder = None
+        self.gemini_helper = GeminiHelper()
+        self.conversation_context = []
+        self.user_name = None
         self._load_or_train_model()
     
     def _load_intents(self) -> dict:
@@ -65,11 +69,14 @@ class Chatbot:
             return "Sorry, the chatbot model is not available right now.", "error"
         
         try:
+            # Store conversation context
+            self._add_to_context(f"User: {user_input}")
+            
             # Preprocess user input
             processed_input = self.nlp_processor.preprocess_text(user_input)
             
             if not processed_input:
-                return self._get_fallback_response(), "fallback"
+                return self._get_intelligent_fallback(user_input), "gemini_fallback"
             
             # Vectorize input
             input_vector = self.vectorizer.transform([processed_input])
@@ -81,13 +88,27 @@ class Chatbot:
             # Get intent name
             intent_name = self.label_encoder.inverse_transform([predicted_intent])[0]
             
-            # Use fallback if confidence is too low
-            if confidence < 0.2:
-                return self._get_fallback_response(), "fallback"
+            # Handle introduction intent to extract user name
+            if intent_name == "introduction" and confidence > 0.3:
+                self._extract_user_name(user_input)
+                response = self._get_intent_response(intent_name)
+                self._add_to_context(f"Bot: {response}")
+                return response, intent_name
+            
+            # Use Gemini for low confidence or complex questions
+            if confidence < 0.3:
+                return self._get_intelligent_fallback(user_input), "gemini_fallback"
             
             # Get response for predicted intent
             response = self._get_intent_response(intent_name)
             
+            # Enhance certain intents with Gemini if available
+            if intent_name in ["help", "chatbot_info"] and self.gemini_helper.is_available():
+                enhanced_response = self._enhance_with_gemini(user_input, response, intent_name)
+                if enhanced_response:
+                    response = enhanced_response
+            
+            self._add_to_context(f"Bot: {response}")
             return response, intent_name
             
         except Exception as e:
@@ -115,6 +136,55 @@ class Chatbot:
         ]
         import random
         return random.choice(fallback_responses)
+    
+    def _add_to_context(self, message: str):
+        """Add message to conversation context"""
+        self.conversation_context.append(message)
+        # Keep only last 6 exchanges to manage context size
+        if len(self.conversation_context) > 12:
+            self.conversation_context = self.conversation_context[-12:]
+    
+    def _extract_user_name(self, user_input: str):
+        """Extract user name from introduction"""
+        import re
+        # Look for patterns like "I am John", "My name is John", etc.
+        patterns = [
+            r"(?:i am|i'm|my name is|call me|i am called)\s+([a-zA-Z]+)",
+            r"([a-zA-Z]+)\s+(?:is my name|here)"
+        ]
+        
+        for pattern in patterns:
+            match = re.search(pattern, user_input.lower())
+            if match:
+                self.user_name = match.group(1).capitalize()
+                logging.info(f"Extracted user name: {self.user_name}")
+                break
+    
+    def _get_intelligent_fallback(self, user_input: str) -> str:
+        """Get intelligent response using Gemini for fallback cases"""
+        if self.gemini_helper.is_available():
+            context = " ".join(self.conversation_context[-4:]) if self.conversation_context else None
+            response = self.gemini_helper.get_conversational_response(user_input, self.user_name)
+            if response:
+                return response
+        
+        # Fallback to traditional response if Gemini unavailable
+        return self._get_fallback_response()
+    
+    def _enhance_with_gemini(self, user_input: str, base_response: str, intent: str) -> Optional[str]:
+        """Enhance certain responses with Gemini for more detailed information"""
+        if not self.gemini_helper.is_available():
+            return None
+        
+        if intent == "help":
+            prompt = f"The user asked: '{user_input}'. Provide helpful, specific guidance."
+        elif intent == "chatbot_info":
+            prompt = f"Explain what you are as an AI chatbot, your capabilities, and how you can help users. Be friendly and informative."
+        else:
+            return None
+        
+        enhanced = self.gemini_helper.get_response(prompt)
+        return enhanced if enhanced else base_response
     
     def is_model_loaded(self) -> bool:
         """Check if the model is properly loaded"""
