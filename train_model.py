@@ -17,11 +17,13 @@ class ModelTrainer:
     def __init__(self):
         self.nlp_processor = NLPProcessor()
         self.vectorizer = TfidfVectorizer(
-            max_features=1000,
-            ngram_range=(1, 2),
-            stop_words='english'
+            max_features=2000,
+            ngram_range=(1, 3),
+            stop_words='english',
+            lowercase=True,
+            analyzer='word'
         )
-        self.model = MultinomialNB(alpha=0.1)
+        self.model = MultinomialNB(alpha=0.01)
         self.label_encoder = LabelEncoder()
     
     def load_training_data(self) -> Tuple[List[str], List[str]]:

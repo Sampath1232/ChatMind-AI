@@ -82,7 +82,7 @@ class Chatbot:
             intent_name = self.label_encoder.inverse_transform([predicted_intent])[0]
             
             # Use fallback if confidence is too low
-            if confidence < 0.3:
+            if confidence < 0.2:
                 return self._get_fallback_response(), "fallback"
             
             # Get response for predicted intent
