@@ -54,8 +54,10 @@ class NLPProcessor:
         # Convert to lowercase
         text = text.lower()
         
-        # Remove special characters and digits
-        text = re.sub(r'[^a-zA-Z\s]', '', text)
+        # Remove special characters and digits but keep important punctuation
+        text = re.sub(r'[^a-zA-Z\s\?\!\.]', '', text)
+        text = re.sub(r'[\.]+', ' ', text)  # Replace multiple dots with space
+        text = re.sub(r'[\?\!]+', '', text)  # Remove question/exclamation marks
         
         # Tokenize
         tokens = self.tokenize(text)
@@ -87,7 +89,7 @@ class NLPProcessor:
     
     def remove_stopwords(self, tokens: List[str]) -> List[str]:
         """
-        Remove stopwords from token list
+        Remove stopwords from token list but keep important words for intent recognition
         
         Args:
             tokens: List of tokens
@@ -95,7 +97,9 @@ class NLPProcessor:
         Returns:
             Filtered tokens without stopwords
         """
-        return [token for token in tokens if token not in self.stop_words and len(token) > 1]
+        # Keep important words for intent recognition
+        keep_words = {'you', 'are', 'how', 'what', 'who', 'when', 'where', 'why', 'can', 'do', 'tell', 'me', 'i', 'am', 'my', 'name', 'is'}
+        return [token for token in tokens if (token not in self.stop_words or token in keep_words) and len(token) > 1]
     
     def lemmatize_tokens(self, tokens: List[str]) -> List[str]:
         """
