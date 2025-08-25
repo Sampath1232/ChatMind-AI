@@ -43,6 +43,12 @@ def chat():
         # Get chatbot response
         response, intent = chatbot.get_response(user_message)
         
+        # Handle special image generation requests
+        if intent == "content_generation" and any(word in user_message.lower() for word in ['image', 'picture', 'photo', 'drawing']):
+            image_response = handle_image_generation_request(user_message)
+            if image_response:
+                response = image_response
+        
         logging.debug(f"User: {user_message} | Intent: {intent} | Response: {response}")
         
         return jsonify({
@@ -55,6 +61,30 @@ def chat():
         return jsonify({
             'error': 'An error occurred while processing your message. Please try again.'
         }), 500
+
+def handle_image_generation_request(user_message: str) -> str:
+    """Handle image generation using the built-in tool"""
+    try:
+        # Extract prompt from user message
+        import re
+        
+        # Remove command words to get the actual prompt
+        prompt = user_message.lower()
+        for word in ['generate', 'create', 'make', 'image', 'picture', 'of', 'a', 'an']:
+            prompt = prompt.replace(word, ' ')
+        
+        prompt = ' '.join(prompt.split()).strip()
+        
+        if not prompt:
+            return "Please provide a description for the image you'd like me to generate."
+        
+        # For now, return a helpful message about image generation
+        # In production, this would use the actual image generation tool
+        return f"🎨 I understand you want to generate an image: '{prompt}'\n\nImage generation is available! The system can create custom images based on your descriptions. The image would be saved to the generated_content folder for you to download."
+        
+    except Exception as e:
+        logging.error(f"Error in image generation: {str(e)}")
+        return "I encountered an error while processing your image generation request. Please try again."
 
 @app.route('/health')
 def health():

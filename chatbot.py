@@ -5,6 +5,7 @@ from typing import Tuple, List, Optional
 import joblib
 from nlp_processor import NLPProcessor
 from gemini_helper import GeminiHelper
+from content_generator import ContentGenerator
 
 class Chatbot:
     """
@@ -18,6 +19,7 @@ class Chatbot:
         self.vectorizer = None
         self.label_encoder = None
         self.gemini_helper = GeminiHelper()
+        self.content_generator = ContentGenerator()
         self.conversation_context = []
         self.user_name = None
         self._load_or_train_model()
@@ -94,6 +96,10 @@ class Chatbot:
                 response = self._get_intent_response(intent_name)
                 self._add_to_context(f"Bot: {response}")
                 return response, intent_name
+            
+            # Handle content generation requests
+            if intent_name == "content_generation" and confidence > 0.3:
+                return self._handle_content_generation(user_input), intent_name
             
             # Use Gemini for low confidence or complex questions
             if confidence < 0.3:
@@ -185,6 +191,118 @@ class Chatbot:
         
         enhanced = self.gemini_helper.get_response(prompt)
         return enhanced if enhanced else base_response
+    
+    def _handle_content_generation(self, user_input: str) -> str:
+        """Handle content generation requests"""
+        user_lower = user_input.lower()
+        
+        try:
+            # Determine what type of content to generate
+            if any(word in user_lower for word in ['image', 'picture', 'photo', 'drawing']):
+                return self._handle_image_generation(user_input)
+            elif any(word in user_lower for word in ['pdf', 'document']):
+                return self._handle_pdf_generation(user_input)
+            elif any(word in user_lower for word in ['word', 'docx']):
+                return self._handle_word_generation(user_input)
+            elif any(word in user_lower for word in ['text', 'article', 'story', 'essay', 'content']):
+                return self._handle_text_generation(user_input)
+            else:
+                return ("I can help you generate content! Please specify what you'd like me to create:\n"
+                       "• Images: 'generate image of a sunset'\n"
+                       "• PDFs: 'create PDF about artificial intelligence'\n" 
+                       "• Word documents: 'make Word document about cooking'\n"
+                       "• Text content: 'write article about space exploration'\n\n"
+                       "What would you like me to generate?")
+        
+        except Exception as e:
+            logging.error(f"Error handling content generation: {str(e)}")
+            return "I encountered an error while trying to generate content. Please try again with a different prompt."
+    
+    def _handle_image_generation(self, user_input: str) -> str:
+        """Handle image generation requests"""
+        # Extract the prompt for image generation
+        prompt = self._extract_generation_prompt(user_input, ['generate', 'create', 'make', 'image', 'picture'])
+        
+        if not prompt:
+            return "Please provide a description for the image you'd like me to generate. For example: 'generate image of a beautiful sunset over mountains'"
+        
+        # Note: In a real implementation, this would use the image generation tool
+        return f"🎨 I'll generate an image based on your prompt: '{prompt}'\n\nNote: Image generation requires additional setup. For now, I can help you refine your prompt or suggest image generation tools you could use!"
+    
+    def _handle_pdf_generation(self, user_input: str) -> str:
+        """Handle PDF generation requests"""
+        prompt = self._extract_generation_prompt(user_input, ['generate', 'create', 'make', 'pdf', 'document'])
+        
+        if not prompt:
+            return "Please tell me what you'd like the PDF to be about. For example: 'create PDF about renewable energy'"
+        
+        result = self.content_generator.generate_pdf(prompt)
+        
+        if result["success"]:
+            return f"📄 {result['message']}\n\nThe PDF has been created with the following content preview:\n\n{result['content'][:200]}..."
+        else:
+            return f"❌ {result['message']}"
+    
+    def _handle_word_generation(self, user_input: str) -> str:
+        """Handle Word document generation requests"""
+        prompt = self._extract_generation_prompt(user_input, ['generate', 'create', 'make', 'word', 'document'])
+        
+        if not prompt:
+            return "Please tell me what you'd like the Word document to be about. For example: 'make Word document about healthy eating'"
+        
+        result = self.content_generator.generate_word_doc(prompt)
+        
+        if result["success"]:
+            return f"📝 {result['message']}\n\nThe Word document has been created with the following content preview:\n\n{result['content'][:200]}..."
+        else:
+            return f"❌ {result['message']}"
+    
+    def _handle_text_generation(self, user_input: str) -> str:
+        """Handle text content generation requests"""
+        prompt = self._extract_generation_prompt(user_input, ['generate', 'create', 'write', 'make', 'text', 'article', 'story', 'essay'])
+        
+        if not prompt:
+            return "Please tell me what you'd like me to write about. For example: 'write article about climate change'"
+        
+        # Determine content type
+        content_type = "article"
+        if "story" in user_input.lower():
+            content_type = "story"
+        elif "essay" in user_input.lower():
+            content_type = "essay"
+        
+        result = self.content_generator.generate_text_content(prompt, content_type)
+        
+        if result["success"]:
+            return f"✍️ Here's your generated {content_type}:\n\n{result['content']}"
+        else:
+            return f"❌ {result['message']}"
+    
+    def _extract_generation_prompt(self, user_input: str, keywords: list) -> str:
+        """Extract the actual prompt from user input by removing command keywords"""
+        words = user_input.lower().split()
+        
+        # Find where the actual prompt starts (after command keywords)
+        prompt_start = 0
+        for i, word in enumerate(words):
+            if word not in keywords and not any(kw in word for kw in keywords):
+                # Remove common connecting words
+                if word not in ['of', 'about', 'on', 'for', 'with', 'a', 'an', 'the']:
+                    prompt_start = i
+                    break
+        
+        # Extract the prompt part
+        prompt_words = user_input.split()[prompt_start:]
+        prompt = ' '.join(prompt_words).strip()
+        
+        # Clean up common prefixes
+        prefixes = ['of ', 'about ', 'on ', 'for ', 'with ']
+        for prefix in prefixes:
+            if prompt.lower().startswith(prefix):
+                prompt = prompt[len(prefix):].strip()
+                break
+        
+        return prompt
     
     def is_model_loaded(self) -> bool:
         """Check if the model is properly loaded"""

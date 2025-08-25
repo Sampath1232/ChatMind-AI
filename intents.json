@@ -386,6 +386,51 @@
       ]
     },
     {
+      "tag": "content_generation",
+      "patterns": [
+        "Generate image",
+        "Create image",
+        "Make image",
+        "Generate picture",
+        "Create picture",
+        "Make picture",
+        "Generate PDF",
+        "Create PDF",
+        "Make PDF",
+        "Generate document",
+        "Create document",
+        "Make document",
+        "Generate Word",
+        "Create Word",
+        "Make Word document",
+        "Generate text",
+        "Create text",
+        "Write article",
+        "Write story",
+        "Write essay",
+        "Generate content",
+        "Create content",
+        "Make content",
+        "I want to generate",
+        "I need to create",
+        "Can you generate",
+        "Can you create",
+        "Can you make",
+        "Help me generate",
+        "Help me create"
+      ],
+      "responses": [
+        "I can help you generate various types of content! I can create images, PDFs, Word documents, and text content. What would you like me to generate?",
+        "Great! I have content generation capabilities. I can create images, documents, PDFs, and text content based on your prompts. What do you need?",
+        "I'd be happy to help you create content! I can generate images, PDFs, Word documents, and text articles. What would you like me to make?",
+        "Content generation is one of my specialties! I can create images, documents, PDFs, and various text content. What's your prompt?",
+        "Perfect! I can generate multiple types of content for you - images, PDFs, Word documents, and text content. What would you like me to create?",
+        "I'm ready to help with content generation! Whether you need images, documents, PDFs, or text content, I can create it based on your prompt. What shall we make?",
+        "Excellent! I can generate images, PDFs, Word documents, and text content. Just give me a detailed prompt and I'll create what you need!",
+        "I love creating content! I can generate images, documents, PDFs, and text based on your ideas. What would you like me to generate for you?"
+      ]
+    },
+    {
       "tag": "fallback",
       "patterns": [
         "I don't understand",

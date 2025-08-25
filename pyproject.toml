@@ -12,5 +12,8 @@ dependencies = [
     "joblib>=1.5.1",
     "nltk>=3.9.1",
     "psycopg2-binary>=2.9.10",
+    "python-docx>=1.2.0",
+    "reportlab>=4.4.3",
     "scikit-learn>=1.7.1",
+    "sift-stack-py>=0.8.4",
 ]
