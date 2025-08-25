@@ -19,10 +19,19 @@ class NLPProcessor:
     def _download_nltk_data(self):
         """Download required NLTK data"""
         try:
-            nltk_downloads = ['punkt', 'stopwords', 'wordnet', 'omw-1.4']
+            nltk_downloads = ['punkt', 'punkt_tab', 'stopwords', 'wordnet', 'omw-1.4']
             for item in nltk_downloads:
                 try:
-                    nltk.data.find(f'tokenizers/{item}')
+                    if item == 'punkt':
+                        nltk.data.find('tokenizers/punkt')
+                    elif item == 'punkt_tab':
+                        nltk.data.find('tokenizers/punkt_tab')
+                    elif item == 'stopwords':
+                        nltk.data.find('corpora/stopwords')
+                    elif item == 'wordnet':
+                        nltk.data.find('corpora/wordnet')
+                    elif item == 'omw-1.4':
+                        nltk.data.find('corpora/omw-1.4')
                 except LookupError:
                     logging.info(f"Downloading NLTK data: {item}")
                     nltk.download(item, quiet=True)

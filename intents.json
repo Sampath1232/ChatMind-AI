@@ -18,7 +18,24 @@
         "How are you",
         "How's it going",
         "Nice to meet you",
-        "Pleased to meet you"
+        "Pleased to meet you",
+        "How are you doing",
+        "How do you do",
+        "What's going on",
+        "How's everything",
+        "How's your day",
+        "Good to see you",
+        "Sup",
+        "Yo",
+        "Hiya",
+        "How have you been",
+        "How are things",
+        "How's life",
+        "How are you today",
+        "Good day",
+        "Hola",
+        "Bonjour",
+        "Salutations"
       ],
       "responses": [
         "Hello! How can I help you today?",
@@ -111,7 +128,24 @@
         "Support",
         "Assistance",
         "Guide me",
-        "Show me how"
+        "Show me how",
+        "I'm lost",
+        "I need assistance",
+        "Can you assist me",
+        "I need support",
+        "Help me out",
+        "Give me a hand",
+        "I'm stuck",
+        "What should I do",
+        "How does this work",
+        "Explain to me",
+        "Show me",
+        "Tutorial",
+        "Instructions",
+        "How to use",
+        "Getting started",
+        "I'm new here",
+        "First time"
       ],
       "responses": [
         "I'm here to help! You can ask me questions about various topics, and I'll do my best to assist you.",
@@ -142,7 +176,23 @@
         "How were you made",
         "Who created you",
         "What's your story",
-        "Introduce yourself"
+        "Introduce yourself",
+        "Are you a robot",
+        "What kind of bot are you",
+        "Are you real",
+        "Are you alive",
+        "Tell me who you are",
+        "What's your name",
+        "Describe yourself",
+        "Are you a computer",
+        "Are you a program",
+        "Are you software",
+        "What type of AI are you",
+        "Are you machine learning",
+        "Are you smart",
+        "Do you think",
+        "Are you conscious",
+        "What can you tell me about yourself"
       ],
       "responses": [
         "I'm an AI chatbot created to help answer questions and provide assistance. I use machine learning to understand and respond to your messages!",
@@ -201,6 +251,96 @@
         "For the current time, I'd recommend checking your device's system clock or a reliable time service online!",
         "I don't have access to live time data. Your device should display the current time, or you can search for 'current time' online!",
         "I'm unable to tell you the exact time right now. Please check your local device time or use a time service for accurate information!"
+      ]
+    },
+    {
+      "tag": "jokes",
+      "patterns": [
+        "Tell me a joke",
+        "Make me laugh",
+        "Say something funny",
+        "Do you know any jokes",
+        "I want to hear a joke",
+        "Can you tell jokes",
+        "Joke please",
+        "Something humorous",
+        "Make me smile",
+        "Entertain me",
+        "Funny story",
+        "Be funny",
+        "Humor me",
+        "Cheer me up"
+      ],
+      "responses": [
+        "Why don't scientists trust atoms? Because they make up everything! 😄",
+        "I told my computer a joke about algorithms, but it didn't laugh. I guess it didn't find it very... executable! 🤖",
+        "Why did the chatbot go to therapy? It had too many unresolved queries! 😅",
+        "What do you call a chatbot that can sing? A melody-bot! 🎵",
+        "Why don't robots ever panic? They always keep their cool-ing systems running! ❄️",
+        "I would tell you a joke about machine learning, but I'm still training on humor! 😂",
+        "Why did the AI break up with the calculator? It couldn't compute their relationship! 💔",
+        "What's a robot's favorite type of music? Heavy metal! 🎸"
+      ]
+    },
+    {
+      "tag": "compliment",
+      "patterns": [
+        "You're awesome",
+        "You're great",
+        "Good job",
+        "Well done",
+        "You're amazing",
+        "You're the best",
+        "You're fantastic",
+        "You're wonderful",
+        "You're brilliant",
+        "You're incredible",
+        "You're helpful",
+        "You're smart",
+        "You're cool",
+        "I like you",
+        "You're nice",
+        "You're kind"
+      ],
+      "responses": [
+        "Thank you so much! That really brightens my day! 😊",
+        "You're very kind! I appreciate the compliment!",
+        "Aww, thank you! You're pretty awesome yourself! ✨",
+        "That means a lot to me! Thank you for being so nice!",
+        "You're too kind! I'm just happy I could help! 🌟",
+        "Thank you! Your positivity is contagious! 😄",
+        "I really appreciate that! You've made my circuits happy! 🤖",
+        "You're wonderful too! Thanks for the kind words! 💙"
+      ]
+    },
+    {
+      "tag": "conversation",
+      "patterns": [
+        "How's your day",
+        "What are you up to",
+        "What's new",
+        "How have you been",
+        "What's happening",
+        "How are things",
+        "What's going on with you",
+        "Tell me something interesting",
+        "What do you think about",
+        "Share something with me",
+        "What's on your mind",
+        "Let's chat",
+        "Let's talk",
+        "I'm bored",
+        "Keep me company"
+      ],
+      "responses": [
+        "I'm doing great! I love chatting with people like you. What's been the highlight of your day?",
+        "My day's been filled with interesting conversations! I enjoy learning from each person I talk to. How about you?",
+        "I'm always excited to meet new people and help them out! What brings you here today?",
+        "Things are wonderful! Every conversation teaches me something new. What would you like to talk about?",
+        "I'm having a fantastic time helping people and learning! What's something interesting that happened to you recently?",
+        "My circuits are buzzing with excitement from all the great conversations today! What's on your mind?",
+        "I'm always here and ready to chat! What would you like to discuss or explore together?",
+        "Life as an AI is quite fascinating! I get to meet amazing people like you every day. What's your story?"
       ]
     },
     {
