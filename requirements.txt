@@ -1,0 +1,14 @@
+joblib
+requests
+flask
+google
+google-genai
+reportlab
+python-docx
+scikit-learn
+pandas
+numpy
+python-dotenv
+pylance
+dotenv
+nltk

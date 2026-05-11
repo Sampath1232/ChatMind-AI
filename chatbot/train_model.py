@@ -7,7 +7,7 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, accuracy_score
-from nlp_processor import NLPProcessor
+from chatbot.nlp_processor import NLPProcessor
 
 class ModelTrainer:
     """

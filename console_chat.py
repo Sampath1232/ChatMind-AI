@@ -1,5 +1,5 @@
 import logging
-from chatbot import Chatbot
+from chatbot.chatbot import Chatbot
 
 def console_chat():
     """

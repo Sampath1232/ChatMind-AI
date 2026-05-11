@@ -12,7 +12,7 @@ from docx import Document
 from docx.shared import Inches
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 
-from gemini_helper import GeminiHelper
+from agents.gemini_helper import GeminiHelper
 
 
 class ContentGenerator:

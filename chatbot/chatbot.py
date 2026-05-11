@@ -4,8 +4,8 @@ import logging
 from typing import Tuple
 import joblib
 
-from nlp_processor import NLPProcessor
-from content_generator import ContentGenerator
+from chatbot.nlp_processor import NLPProcessor
+from generators.content_generator import ContentGenerator
 
 
 class Chatbot:
@@ -105,7 +105,7 @@ class Chatbot:
         # ================================================
         logging.info("Training new model...")
 
-        from train_model import ModelTrainer
+        from chatbot.train_model import ModelTrainer
 
         trainer = ModelTrainer()
 
